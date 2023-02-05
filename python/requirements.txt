@@ -1,0 +1,3 @@
+board
+adafruit-circuitpython-dht
+psutil

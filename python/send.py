@@ -2,7 +2,6 @@ import time
 import board
 import adafruit_dht
 import psutil
-import paho.mqtt.client as mqtt
 import sys
 
 # We first check if a libgpiod process is running. If yes, we kill it!
@@ -11,18 +10,13 @@ for proc in psutil.process_iter():
         proc.kill()
 sensor = adafruit_dht.DHT11(board.D22)
 
-mqhost="192.168.0.243"
-client = mqtt.Client()
-client.connect(mqhost, 1883, 60)
-
-client.loop_start()
+host="192.168.0.243"
 
 def main():
    while True:
       temperature = sensor.temperature
       humidity = sensor.humidity
-      client.publish("sensor1",str({"temperature":int(temperature),"humidity":int(humidity)}))
-      print({"temperature":int(temperature),"humidity":int(humidity)},file=sys.stderr)
+      print(temperature,humidity)
       time.sleep(2)
 try:
   main()
