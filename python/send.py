@@ -12,7 +12,7 @@ for proc in psutil.process_iter():
 sensor = adafruit_dht.DHT11(board.D22)
 
 device = 1
-url = 'http://metrics:3000'
+url = 'http://172.16.0.152:3000/device'
 
 def main():
    while True:
