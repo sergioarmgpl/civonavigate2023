@@ -3,6 +3,7 @@ import board
 import adafruit_dht
 import psutil
 import sys
+import requests
 
 # We first check if a libgpiod process is running. If yes, we kill it!
 for proc in psutil.process_iter():
@@ -10,14 +11,18 @@ for proc in psutil.process_iter():
         proc.kill()
 sensor = adafruit_dht.DHT11(board.D22)
 
-host="192.168.0.243"
+device = 1
+url = 'http://metrics:3000'
 
 def main():
    while True:
       temperature = sensor.temperature
       humidity = sensor.humidity
       print(temperature,humidity)
-      time.sleep(2)
+      json_data = {'d':device,'t':str(temperature),'h':str(humidity)}
+      x = requests.post(url, json = json_data)
+      print(x.text)
+      time.sleep(1)
 try:
   main()
 except KeyboardInterrupt:
